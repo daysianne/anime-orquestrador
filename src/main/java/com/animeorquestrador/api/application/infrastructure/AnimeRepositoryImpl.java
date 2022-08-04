@@ -3,7 +3,10 @@ package com.animeorquestrador.api.application.infrastructure;
 
 import com.animeorquestrador.api.domain.domain.Anime;
 import com.animeorquestrador.api.domain.port.AnimeRepository;
+import com.animeorquestrador.api.domain.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Repository;
@@ -15,17 +18,30 @@ import java.util.List;
 @Repository
 public class AnimeRepositoryImpl implements AnimeRepository {
     private final RestTemplate restTemplate;
+    private final RabbitTemplate rabbitTemplate;
+
 
     @Autowired
-    public AnimeRepositoryImpl(RestTemplate restTemplate) {
+    public AnimeRepositoryImpl(RestTemplate restTemplate,RabbitTemplate rabbitTemplate) {
         this.restTemplate = restTemplate;
+        this.rabbitTemplate = rabbitTemplate;
     }
+//    @Autowired
+//    private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private Queue queue;
+
+    public void send(String order) {
+        rabbitTemplate.convertAndSend(this.queue.getName(), order);
+    }
 
 
     @Override
     public Anime findById(Long id) {
-        return restTemplate.getForEntity("http://localhost:8080/v2/animes/{id}", Anime.class, id).getBody();
+        Anime anime = restTemplate.getForEntity("http://localhost:8080/v2/animes/{id}", Anime.class, id).getBody();
+        rabbitTemplate.convertAndSend("direct-exchange", "routing-key-anime", JsonUtil.paraJson(anime));
+        return anime;
     }
 
     @Override

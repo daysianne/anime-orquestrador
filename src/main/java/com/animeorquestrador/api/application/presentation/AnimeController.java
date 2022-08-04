@@ -5,8 +5,11 @@ import com.animeorquestrador.api.application.mapper.AnimeMapper;
 import com.animeorquestrador.api.application.presentation.representation.AnimeRequestRepresentation;
 import com.animeorquestrador.api.application.presentation.representation.AnimeResponseRepresentation;
 import com.animeorquestrador.api.domain.domain.Anime;
+import com.animeorquestrador.api.domain.port.AnimeRepository;
 import com.animeorquestrador.api.domain.service.AnimeService;
+import com.animeorquestrador.api.domain.util.JsonUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +28,7 @@ public class AnimeController {
     private AnimeService animeService;
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<AnimeResponseRepresentation> searchAnimeById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<AnimeResponseRepresentation> BuscarPorId(@PathVariable(value = "id") Long id) {
         var animeById = animeService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(AnimeMapper.paraRepresentacao(animeById));
     }

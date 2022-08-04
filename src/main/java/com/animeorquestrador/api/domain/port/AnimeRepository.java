@@ -16,4 +16,5 @@ public interface AnimeRepository {
     void deleteAnime(Long codigo);
 
     Anime updateAnime( Anime anime);
+    void send(String order);
 }
