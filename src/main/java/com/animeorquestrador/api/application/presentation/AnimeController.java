@@ -29,7 +29,7 @@ public class AnimeController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<AnimeResponseRepresentation> BuscarPorId(@PathVariable(value = "id") Long id) {
-        var animeById = animeService.findById(id);
+        var animeById = animeService.buscarPorId(id);
         return ResponseEntity.status(HttpStatus.OK).body(AnimeMapper.paraRepresentacao(animeById));
     }
 

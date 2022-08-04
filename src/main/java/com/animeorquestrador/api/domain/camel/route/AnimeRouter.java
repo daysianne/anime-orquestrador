@@ -17,13 +17,13 @@ public class AnimeRouter extends RouteBuilder {
     @Override
     public void configure() {
         from(ROUTE_URI)
-                .bean(animeRepository, "findAnime");
+                .bean(animeRepository, "listarAnime");
         from(ROUTE_URI_BY_ID)
-                .bean(animeRepository, "findById");
+                .bean(animeRepository, "buscarPorId");
         from(ROUTE_URI_SAVE)
                 .bean(animeRepository, "salvar");
        from(ROUTE_URI_UPDATE)
-                .bean(animeRepository, "updateAnime");
+                .bean(animeRepository, "atualizarAnime");
         from(ROUTE_URI_DELETE)
                 .bean(animeRepository, "deleteAnime");
     }

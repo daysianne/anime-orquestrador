@@ -9,12 +9,11 @@ public interface AnimeRepository {
 
     Anime salvar(Anime anime);
 
-    List<Anime> findAnime();
+    List<Anime> listarAnime();
 
-   Anime findById(Long codigo);
+   Anime buscarPorId(Long codigo);
 
     void deleteAnime(Long codigo);
 
-    Anime updateAnime( Anime anime);
-    void send(String order);
+    Anime atualizarAnime( Anime anime);
 }

@@ -23,13 +23,11 @@ public class FindAnimeConfig {
         return new CamelContextWrapper(routes);
     }
 
-    //router chama a implementação
     @Bean
     public AnimeRouter animeRouter(AnimeRepository animeRepository) {
         return new AnimeRouter(animeRepository);
     }
 
-    //service
     @Bean
     public AnimeService animeService(CamelContextWrapper wrapper) {
         return new AnimeService(wrapper);

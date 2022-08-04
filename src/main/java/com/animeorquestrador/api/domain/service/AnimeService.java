@@ -16,8 +16,7 @@ public class AnimeService {
         this.template = wrapper.createProducerTemplate();
     }
 
-
-    public Anime findById(Long id) {
+    public Anime buscarPorId(Long id) {
         return template.requestBody(AnimeRouter.ROUTE_URI_BY_ID, id, Anime.class);
     }
     public List<Anime> buscarTodos() {
@@ -25,7 +24,6 @@ public class AnimeService {
     }
 
     public Anime salvar(Anime anime) {
-
         try {
             return template.requestBody(AnimeRouter.ROUTE_URI_SAVE,anime, Anime.class);
         } catch (Exception e) {
@@ -38,7 +36,7 @@ public class AnimeService {
         try {
           template.sendBody(AnimeRouter.ROUTE_URI_DELETE,codigo);
         } catch (Exception e) {
-            log.error("Erro ao tentar salvar um anime. {}",codigo, e);
+            log.error("Erro ao tentar deleta um anime. {}",codigo, e);
             throw e;
         }
     }
@@ -48,7 +46,7 @@ public class AnimeService {
             anime.setId(codigo);
             return template.requestBody(AnimeRouter.ROUTE_URI_UPDATE,anime, Anime.class);
         } catch (Exception e) {
-            log.error("Erro ao tentar salvar um anime. {}", anime, e);
+            log.error("Erro ao tentar atualizar um anime. {}", anime, e);
             throw e;
         }
     }
